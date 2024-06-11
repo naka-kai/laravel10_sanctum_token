@@ -21,4 +21,28 @@ class ProductController extends BaseController
 
         return $this->sendResponse(ProductResource::collection($products), 'Products retrieved successfully.');
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $input = $request->all();
+
+        $validator = Validator::make($input, [
+            'name' => 'required',
+            'detail' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError('Validation Error.', $validator->errors());
+        }
+
+        $product = Product::create($input);
+
+        return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
+    }
 }
