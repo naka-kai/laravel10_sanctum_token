@@ -45,4 +45,21 @@ class ProductController extends BaseController
 
         return $this->sendResponse(new ProductResource($product), 'Product created successfully.');
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param int $id
+     * @return Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $product = Product::find($id);
+
+        if (is_null($product)) {
+            return $this->sendError('Product not found.');
+        }
+
+        return $this->sendResponse(new ProductResource($product), 'Product retrieved successfully.');
+    }
 }
